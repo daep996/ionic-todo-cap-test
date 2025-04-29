@@ -81,12 +81,18 @@ export class CategoryEditPage implements OnInit {
     this.initForm()
 
     if (this.isEditMode && this.categoryId) {
-      this.category = this.categoryService.getCategory(this.categoryId)
-      this.categoryForm.patchValue({
-        id: this.category.id,
-        name: this.category.name,
-        color: this.category.color,
-      })
+      const foundCategory = this.categoryService.getCategory(this.categoryId)
+      if (foundCategory) {
+        this.category = foundCategory
+        this.categoryForm.patchValue({
+          id: this.category.id,
+          name: this.category.name,
+          color: this.category.color,
+        })
+      } else {
+        console.error('Category not found')
+        this.router.navigate(['/categories'])
+      }
     }
   }
 
@@ -98,11 +104,11 @@ export class CategoryEditPage implements OnInit {
     })
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.isEditMode) {
       this.categoryService.editCategory(this.categoryForm.value)
     } else if (!this.isEditMode) {
-      this.categoryService.addCategory(this.categoryForm.value)
+      await this.categoryService.addCategory(this.categoryForm.value)
     } else {
       console.log("ERROR UPDATE")
     }

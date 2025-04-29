@@ -39,9 +39,14 @@ export class CategoryItemComponent {
     addIcons({pencil, 'trash-bin': trashBin})
   }
 
-  deleteCategory(id: string) {
-    if (this.categoryService.deleteCategory(id)) {
-      console.error(`NOT Deleted ${id}`)
+  async deleteCategory(id: string) {
+    try {
+      const deleted = await this.categoryService.deleteCategory(id)
+      if (!deleted) {
+        console.error(`Error deleting category ${id}`)
+      }
+    } catch (error) {
+      console.error('Error:', error)
     }
   }
 

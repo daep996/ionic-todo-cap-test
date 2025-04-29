@@ -5,11 +5,12 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { IonicModule } from '@ionic/angular'
 import { Category, Task } from 'src/app/interfaces'
 import { CategoriesService, TasksService } from '../../../service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-taskstask-edit',
@@ -18,11 +19,12 @@ import { CategoriesService, TasksService } from '../../../service'
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
   standalone: true,
 })
-export class TaskstaskEditPage implements OnInit {
+export class TaskstaskEditPage implements OnInit, OnDestroy {
   taskForm!: FormGroup
   task!: Task
   categories!: Category[]
   isEditMode = false
+  private subscription!: Subscription
 
   constructor(
     private categoryService: CategoriesService,
@@ -35,7 +37,9 @@ export class TaskstaskEditPage implements OnInit {
   ngOnInit() {
     this.isEditMode = Object.keys(this.route.snapshot.params).length !== 0;
     this.initForm();
-    this.categories = this.categoryService.getCategories();
+    this.subscription = this.categoryService.getCategories().subscribe(
+      categories => this.categories = categories
+    )
     if (this.isEditMode) {
       const taskId = this.route.snapshot.paramMap.get('id');
       if (taskId === null) {
@@ -53,6 +57,12 @@ export class TaskstaskEditPage implements OnInit {
         categoryId: this.task.categoryId,
         completed: this.task.completed,
       });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 

@@ -1,11 +1,12 @@
 import { CategoryItemComponent } from '../../components/category-item/category-item.component'
 import { CategoriesService } from 'src/app/service'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Category } from 'src/app/interfaces'
 import { FormsModule } from '@angular/forms'
 import { RouterLink } from '@angular/router'
 import { addSharp } from 'ionicons/icons'
 import { addIcons } from 'ionicons'
+import { Subscription } from 'rxjs'
 import {
   IonButtons,
   IonContent,
@@ -44,16 +45,23 @@ import {
   ],
   standalone: true,
 })
-export class CategoriesPage implements OnInit {
-
+export class CategoriesPage implements OnInit, OnDestroy {
   categories: Category[] = []
+  private subscription!: Subscription
 
   constructor(private categoryService: CategoriesService) {
     addIcons({'add-sharp': addSharp})
   }
 
   ngOnInit() {
-    this.categories = this.categoryService.getCategories()
+    this.subscription = this.categoryService.getCategories().subscribe(
+      categories => this.categories = categories
+    )
   }
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
+  }
 }
