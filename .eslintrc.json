@@ -35,7 +35,6 @@
             "style": "camelCase"
           }
         ],
-        "@typescript-eslint/semi": ["error", "never"]
       }
     },
     {

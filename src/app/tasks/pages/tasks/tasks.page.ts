@@ -19,9 +19,9 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone'
 import { addSharp, pencil, trashBin } from 'ionicons/icons'
-import { CategoriesService, TasksService } from 'src/app/service'
-import { Component, OnInit } from '@angular/core'
 import { Category, Task } from '../../../interfaces'
+import { Component, OnInit } from '@angular/core'
+import { TasksService } from 'src/app/service'
 import { RouterLink } from '@angular/router'
 import { addIcons } from 'ionicons'
 
@@ -39,7 +39,7 @@ export class TasksPage implements OnInit {
   isToastOpen = false
   
   constructor(private tasksService: TasksService) {
-    addIcons({ addSharp, pencil, trashBin })
+    addIcons({ 'add-sharp': addSharp, 'trash-bin': trashBin, pencil })
   }
 
   ngOnInit() {

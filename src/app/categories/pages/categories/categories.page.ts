@@ -49,7 +49,7 @@ export class CategoriesPage implements OnInit {
   categories: Category[] = []
 
   constructor(private categoryService: CategoriesService) {
-    addIcons({addSharp})
+    addIcons({'add-sharp': addSharp})
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
-import { checkmarkCircle, pricetag } from 'ionicons/icons'
-import { Component } from '@angular/core'
-import { addIcons } from 'ionicons'
+import { checkmarkCircle, pricetag } from 'ionicons/icons';
+import { Component } from '@angular/core';
+import { addIcons } from 'ionicons';
 import {
   IonApp,
   IonContent,
@@ -13,8 +13,8 @@ import {
   IonNote,
   IonRouterOutlet,
   IonSplitPane,
-} from '@ionic/angular/standalone'
-import { RouterLink } from '@angular/router'
+} from '@ionic/angular/standalone';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -37,14 +37,14 @@ import { RouterLink } from '@angular/router'
 })
 export class AppComponent {
   public appPages = [
-    { title: "Tasks", url: "/tasks", icon: "checkmark-circle" },
-    { title: "Categories", url: "/categories", icon: "pricetags" },
-  ]
+    { title: 'Tasks', url: '/tasks', icon: 'checkmark-circle' },
+    { title: 'Categories', url: '/categories', icon: 'pricetags' },
+  ];
 
   constructor() {
     addIcons({
       'checkmark-circle': checkmarkCircle,
-      'pricetags': pricetag
-    })
+      pricetags: pricetag,
+    });
   }
 }

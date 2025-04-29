@@ -8,7 +8,7 @@ import {
   IonLabel,
   IonToast,
 } from '@ionic/angular/standalone'
-import { pencil, createOutline, trashOutline, trashBin } from 'ionicons/icons'
+import { pencil, trashBin } from 'ionicons/icons'
 import { CategoriesService } from 'src/app/service'
 import { Component, Input } from '@angular/core'
 import { Category } from 'src/app/interfaces'
@@ -36,13 +36,11 @@ export class CategoryItemComponent {
   @Input() category!: Category
 
   constructor(private categoryService: CategoriesService) {
-    addIcons({pencil, createOutline, trashOutline, trashBin})
+    addIcons({pencil, 'trash-bin': trashBin})
   }
 
   deleteCategory(id: string) {
     if (this.categoryService.deleteCategory(id)) {
-      console.log(`Deleted ${id}`)
-    } else {
       console.error(`NOT Deleted ${id}`)
     }
   }

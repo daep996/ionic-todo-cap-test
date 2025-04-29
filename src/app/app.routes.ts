@@ -4,6 +4,10 @@ import { categoriesRoutes } from './categories/categories.routes'
 
 export const routes: Routes = [
   {
+    path: 'login',
+    loadComponent: () => import('./login/pages/login.page').then(m => m.LoginPage)
+  },
+  {
     path: 'tasks',
     children: tasksRoutes
   },
