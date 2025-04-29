@@ -1,0 +1,7 @@
+{
+  "name": "ionic-todo-cap-test",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
