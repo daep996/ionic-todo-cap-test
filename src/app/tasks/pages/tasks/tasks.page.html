@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Tasks</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tasks</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  @for (task of tasks; track task.id) {
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ task.title }}</ion-card-title>
+      <ion-card-subtitle>
+        <ion-item>
+          State:
+          @if (task.completed) {
+          <ion-badge color="success">Done</ion-badge>
+          } @else {
+          <ion-badge color="warning">Uncomplete</ion-badge>
+          }
+        </ion-item>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      {{ task.description }}
+    </ion-card-content>
+    <ion-button routerLink="/tasks/edit/{{task.id}}" size="small" shape="round" color="tertiary">
+      <ion-icon slot="start" name="pencil"></ion-icon>
+      Edit
+    </ion-button>
+    <ion-button (click)="deleteTask(task.id)" size="small" shape="round" color="danger">
+      <ion-icon slot="start" name="trash-bin"></ion-icon>
+      Delete
+    </ion-button>
+    <ion-toast
+      icon="trash-bin"
+      message="Task Deleted correctly!"
+      [isOpen]="isToastOpen"
+      [duration]="2200"
+      (didDismiss)="setOpen(false)">
+    </ion-toast>
+  </ion-card>
+  } @empty {
+  <p class="task-not-found">No Tasks found.</p>
+  }
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/tasks/add">
+      <ion-icon name="add-sharp"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,13 +1,19 @@
-import { Routes } from '@angular/router';
+import { Routes } from '@angular/router'
+import { tasksRoutes } from './tasks/tasks.routes'
+import { categoriesRoutes } from './categories/categories.routes'
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: 'tasks',
+    children: tasksRoutes
+  },
+  {
+    path: 'categories',
+    children: categoriesRoutes
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'tasks',
     pathMatch: 'full',
   },
-];
+]

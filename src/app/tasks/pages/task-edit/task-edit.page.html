@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tasks"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Edit Task' : 'Add Task' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input formControlName="title" type="text" required></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+      Title is required
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea formControlName="description" rows="4"></ion-textarea>
+    </ion-item>
+    <ion-note color="danger" *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched">
+      Description is required
+    </ion-note>
+
+    <ion-item>
+      <ion-label>Category</ion-label>
+      <ion-select formControlName="categoryId" interface="action-sheet" placeholder="Select a category">
+        <ion-select-option [value]="null">None</ion-select-option>
+        <ion-select-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="isEditMode">
+      <ion-label>Completed</ion-label>
+      <ion-toggle formControlName="completed" slot="end"></ion-toggle>
+    </ion-item>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" [disabled]="taskForm.invalid">
+        {{ isEditMode ? 'Update' : 'Add' }} Task
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

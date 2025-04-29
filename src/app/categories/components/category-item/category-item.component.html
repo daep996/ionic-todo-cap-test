@@ -1,0 +1,19 @@
+<ion-item-group>
+  <ion-item-divider>
+    <ion-badge slot="start" [style.background-color]="category.color">&nbsp;</ion-badge>
+    <ion-label>{{ category.name }}</ion-label>
+  </ion-item-divider>
+  <ion-item>
+    <ion-button routerLink="/categories/edit/{{category.id}}" size="small" shape="round" color="tertiary">
+      <ion-icon slot="start" name="pencil"></ion-icon>
+      Edit
+    </ion-button>
+    <ion-button (click)="deleteCategory(category.id)" id="open-toast" size="small" shape="round" color="danger">
+      <ion-icon slot="start" name="trash-bin"></ion-icon>
+      Delete
+    </ion-button>
+    <ion-toast trigger="open-toast" icon="trash-bin" message="Category Deleted correctly!" [duration]="2200">
+    </ion-toast>
+  </ion-item>
+
+  <ion-item-group>
