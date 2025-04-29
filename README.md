@@ -2,6 +2,7 @@
 
 ## COMMANDS
 ```bash
+npm install @capacitor/android
 npx cap add android
 ionic build
 npx cap copy android
