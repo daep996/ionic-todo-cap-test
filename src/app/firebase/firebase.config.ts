@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app"
-import { getAnalytics } from "firebase/analytics"
+// import { getAnalytics } from "firebase/analytics"
 import { environment } from '../../environments/environment.local'
 // Import the functions you need from the SDKs you need
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -15,6 +15,6 @@ measurementId: environment.firebase.measurementId,
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig)
-const analytics = getAnalytics(firebaseApp)
+// const analytics = getAnalytics(firebaseApp)
 
 export default firebaseApp

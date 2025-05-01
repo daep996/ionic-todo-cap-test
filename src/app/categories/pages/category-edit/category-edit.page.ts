@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { CategoriesService } from 'src/app/service'
-import { Component, OnInit } from '@angular/core'
 import { Category } from 'src/app/interfaces'
 import {
   IonBackButton,
@@ -106,11 +106,11 @@ export class CategoryEditPage implements OnInit {
 
   async onSubmit() {
     if (this.isEditMode) {
-      this.categoryService.editCategory(this.categoryForm.value)
+      await this.categoryService.editCategory(this.categoryForm.value)
     } else if (!this.isEditMode) {
       await this.categoryService.addCategory(this.categoryForm.value)
     } else {
-      console.log("ERROR UPDATE")
+      console.error("ERROR UPDATE")
     }
     this.router.navigate(["/categories"])
   }

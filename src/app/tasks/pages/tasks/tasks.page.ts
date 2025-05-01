@@ -20,10 +20,11 @@ import {
 } from '@ionic/angular/standalone'
 import { addSharp, pencil, trashBin } from 'ionicons/icons'
 import { Category, Task } from '../../../interfaces'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { TasksService } from 'src/app/service'
 import { RouterLink } from '@angular/router'
 import { addIcons } from 'ionicons'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-tasks',
@@ -32,9 +33,9 @@ import { addIcons } from 'ionicons'
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonMenuButton, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonItem, IonBadge, IonCardContent, IonIcon, IonToast, IonFab, IonFabButton, RouterLink],
   standalone: true,
 })
-export class TasksPage implements OnInit {
+export class TasksPage implements OnInit, OnDestroy {
   tasks: Task[] = []
-  categories: Category[] = []
+  private subscription!: Subscription
   selectedCategory: string | null = null
   isToastOpen = false
   
@@ -43,11 +44,19 @@ export class TasksPage implements OnInit {
   }
 
   ngOnInit() {
-    this.tasks = this.tasksService.getTasks()
+    this.subscription = this.tasksService.getTasks().subscribe(
+      (tasks) => this.tasks = tasks
+    )
   }
 
-  deleteTask(id: string) {
-    if (this.tasksService.deleteTask(id)) {
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
+  }
+
+  async deleteTask(id: string) {
+    if (await this.tasksService.deleteTask(id)) {
       this.setOpen(true)
     } else {
       console.error(`NOT Deleted ${id}`)

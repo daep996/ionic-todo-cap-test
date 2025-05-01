@@ -4,16 +4,16 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms'
-import { ActivatedRoute, Router } from '@angular/router'
+import { CategoriesService, TasksService } from '../../../service'
 import { Component, OnInit, OnDestroy } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { Category, Task } from 'src/app/interfaces'
 import { CommonModule } from '@angular/common'
 import { IonicModule } from '@ionic/angular'
-import { Category, Task } from 'src/app/interfaces'
-import { CategoriesService, TasksService } from '../../../service'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'app-taskstask-edit',
+  selector: 'app-tasks-edit',
   templateUrl: './task-edit.page.html',
   styleUrls: ['./task-edit.page.scss'],
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
@@ -35,34 +35,34 @@ export class TaskstaskEditPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.isEditMode = Object.keys(this.route.snapshot.params).length !== 0;
-    this.initForm();
+    this.isEditMode = Object.keys(this.route.snapshot.params).length !== 0
+    this.initForm()
     this.subscription = this.categoryService.getCategories().subscribe(
       categories => this.categories = categories
     )
     if (this.isEditMode) {
-      const taskId = this.route.snapshot.paramMap.get('id');
+      const taskId = this.route.snapshot.paramMap.get('id')
       if (taskId === null) {
-        return;
+        return
       }
       this.task = this.taskService.getTask(taskId);
       if (!this.task) {
-        return;
+        return
       }
-      this.initForm();
+      this.initForm()
       this.taskForm.patchValue({
         id: this.task.id,
         title: this.task.title,
         description: this.task.description,
         categoryId: this.task.categoryId,
         completed: this.task.completed,
-      });
+      })
     }
   }
 
   ngOnDestroy() {
     if (this.subscription) {
-      this.subscription.unsubscribe();
+      this.subscription.unsubscribe()
     }
   }
 
@@ -73,17 +73,17 @@ export class TaskstaskEditPage implements OnInit, OnDestroy {
       description: ['', Validators.required],
       categoryId: [''],
       completed: [false],
-    });
+    })
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.isEditMode) {
-      this.taskService.editTask(this.taskForm.value)
+      await this.taskService.editTask(this.taskForm.value)
     } else if (!this.isEditMode) {
-      this.taskService.addTask(this.taskForm.value)
+      await this.taskService.addTask(this.taskForm.value)
     }
      else {
-      console.log(`Error`);
+      console.error(`Error`)
     }
     this.router.navigate(['/tasks'])
   }
