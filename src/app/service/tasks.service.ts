@@ -9,17 +9,17 @@ import {
   query,
   updateDoc,
   where,
-} from '@angular/fire/firestore';
-import { Injectable } from '@angular/core';
-import { Task } from 'src/app/interfaces';
-import { BehaviorSubject } from 'rxjs';
+} from '@angular/fire/firestore'
+import { Injectable } from '@angular/core'
+import { Task } from 'src/app/interfaces'
+import { BehaviorSubject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
-  private taskSubject = new BehaviorSubject<Task[]>([]);
-  tasks$ = this.taskSubject.asObservable();
+  private taskSubject = new BehaviorSubject<Task[]>([])
+  tasks$ = this.taskSubject.asObservable()
 
   constructor(private firestore: Firestore) {
     this.loadTasks()
@@ -39,11 +39,11 @@ export class TasksService {
   }
 
   getTasks() {
-    return this.tasks$;
+    return this.tasks$
   }
 
   getTask(id: string) {
-    return this.taskSubject.value.filter((task) => task.id === id)[0];
+    return this.taskSubject.value.filter((task) => task.id === id)[0]
   }
 
   async editTask(task: Task) {

@@ -11,11 +11,11 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone'
 import { AuthService } from 'src/app/service/auth.service'
-import { Component } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { warning } from 'ionicons/icons'
 import { addIcons } from 'ionicons'
-
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-login',
@@ -23,7 +23,6 @@ import { addIcons } from 'ionicons'
   standalone: true,
   imports: [
     IonButton,
-    ReactiveFormsModule,
     IonContent,
     IonHeader,
     IonInput,
@@ -32,25 +31,45 @@ import { addIcons } from 'ionicons'
     IonTitle,
     IonToast,
     IonToolbar,
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class LoginPage {
-  loginForm: FormGroup
-  isToastOpen: boolean
-  disableLoginBtn: boolean
+export class LoginPage implements OnInit, OnDestroy {
+  loginForm!: FormGroup
+  isToastOpen: boolean = false
+  disableLoginBtn: boolean = false
+  isLogged: boolean = false
+  private authSubscription$!: Subscription
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router,
-  ) {
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.authSubscription$ = this.authService
+      .isAuthenticatedUser()
+      .subscribe((isAuth) => {
+        this.isLogged = isAuth
+        if (isAuth) {
+            this.router.navigate(['/tasks'])
+            return
+        }
+      })
     addIcons({ warning })
     this.isToastOpen = false
     this.disableLoginBtn = true
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     })
+  }
+
+  ngOnDestroy() {
+    if (this.authSubscription$) {
+      this.authSubscription$.unsubscribe()
+    }
   }
 
   setOpen(isToastOpen: boolean) {
@@ -72,4 +91,7 @@ export class LoginPage {
     this.disableLoginBtn = false
   }
 
+  async logout() {
+    await this.authService.logout()
+  }
 }

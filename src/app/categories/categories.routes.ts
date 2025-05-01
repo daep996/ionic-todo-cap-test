@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes } from '@angular/router'
 
 export const categoriesRoutes: Routes = [
   {
@@ -13,4 +13,4 @@ export const categoriesRoutes: Routes = [
     path: 'edit/:id',
     loadComponent: () => import('./pages/category-edit/category-edit.page').then((m) => m.CategoryEditPage),
   }
-];
+]

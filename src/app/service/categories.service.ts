@@ -9,17 +9,17 @@ import {
   query,
   updateDoc,
   where,
-} from '@angular/fire/firestore';
-import { Category } from 'src/app/interfaces';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+} from '@angular/fire/firestore'
+import { Category } from 'src/app/interfaces'
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, Observable } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoriesService {
-  private categoriesSubject = new BehaviorSubject<Category[]>([]);
-  categories$ = this.categoriesSubject.asObservable();
+  private categoriesSubject = new BehaviorSubject<Category[]>([])
+  categories$ = this.categoriesSubject.asObservable()
 
   constructor(private firestore: Firestore) {
     this.loadCategories()

@@ -45,7 +45,7 @@ export class TaskstaskEditPage implements OnInit, OnDestroy {
       if (taskId === null) {
         return
       }
-      this.task = this.taskService.getTask(taskId);
+      this.task = this.taskService.getTask(taskId)
       if (!this.task) {
         return
       }

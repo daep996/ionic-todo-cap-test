@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes } from '@angular/router'
 
 export const tasksRoutes: Routes = [
   {
@@ -13,4 +13,4 @@ export const tasksRoutes: Routes = [
     path: 'edit/:id',
     loadComponent: () => import('./pages/task-edit/task-edit.page').then((m) => m.TaskstaskEditPage),
   }
-];
+]
